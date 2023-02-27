@@ -1,0 +1,22 @@
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: {{ template "trackableappname" . }}
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - kind: Rule
+      match: Host(`{{ .Values.ingress.domain }}`)
+      services:
+        - name: mailhog
+          port: {{ .Values.service.http }}
+      middlewares:
+        - name: mailhog-basic-auth
+          namespace: default
+
+  tls:
+    certResolver: httpdefault
+    domains:
+      - main: {{ .Values.ingress.domain }}

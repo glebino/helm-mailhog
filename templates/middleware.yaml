@@ -1,0 +1,9 @@
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: mailhog-basic-auth
+  namespace: default
+spec:
+  basicAuth:
+    secret: mailhog-basic-auth

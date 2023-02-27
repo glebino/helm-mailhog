@@ -1,0 +1,33 @@
+image:
+  repository: mailhog/mailhog
+  tag: v1.0.0
+  pullPolicy: IfNotPresent
+
+service:
+  # annotations: {}
+  # clusterIp: ""
+  type: ClusterIP
+  http: 8025
+  smtp: 1025
+
+deployment:
+  replicas: 1
+  resources:
+    cpu: 200m
+    memory: 256M
+
+application:
+  track: stable
+  env: production
+
+ingress:
+  domain: mailhog.mysuperbdomain.com 
+    #auth:
+    #  enabled: false
+    #  existingSecret: ""
+    #  fileName: auth.txt
+    #  fileContents: ""
+
+podAnnotations: {}
+resources: {}
+env: {}

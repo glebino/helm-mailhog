@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: {{ .Release.Name }}
+
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}
+      service: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Release.Name }}
+        service: {{ .Release.Name }}
+    spec:
+      securityContext:
+        runAsUser: 1000
+      
+      containers:
+        - name: {{ .Chart.Name }}
+          image: {{ .Values.image.repository }}:{{ .Values.image.tag}}
+          imagePullPolicy: {{ .Values.image.pullPolicy}}
+          ports:
+            - name: http
+              containerPort: {{ .Values.service.http }}
+              protocol: TCP
+            - name: smtp
+              containerPort: {{ .Values.service.smtp }}
+              protocol: TCP
